@@ -6,9 +6,7 @@ import random
 numEpisodes = 2000
 returnSum = 0.0
 
-"""
-policy() returns equiprobable random policy
-"""
+#
 def policy():
     return random.randint(0,1)	
 
