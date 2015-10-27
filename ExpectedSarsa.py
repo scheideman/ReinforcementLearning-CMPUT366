@@ -12,6 +12,7 @@ alpha = 0.001
 
 Q = [[0.000001*random.random() for x in range(2)] for x in range(181)]
 
+
 """
 policy() returns equiprobable random policy
 """
