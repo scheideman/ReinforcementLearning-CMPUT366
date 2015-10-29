@@ -2,20 +2,33 @@ import blackjack
 from pylab import *
 import numpy as np
 import random
-#import pdb
+import csv
+
 
 numEpisodes = 1000000
 returnSum = 0.0
 epsilonu=0.01
 epsilonpi=0.01
-alpha = 0.001
-
-Q = [[0.000001*random.random() for x in range(2)] for x in range(181)]
+alpha = 0.1
 
 
+logfile= open("logfile.csv","a")
+
+writer=csv.writer(logfile)
+
+
+
+
+
+
+
+Q=0.00001*np.random.rand(181,2)
+#print(Q)
 """
 policy() returns equiprobable random policy
 """
+
+
 def policy(state):
 	testnumber=random.random()
 	if (testnumber <= epsilonu):
@@ -24,7 +37,6 @@ def policy(state):
 		return np.argmax(Q[state])
 
 def learnedPolicy(state):
-	#pdb.set_trace()
 	return np.argmax(Q[state])
 			
 def expectedValue(state):
@@ -37,6 +49,7 @@ def expectedValue(state):
 		return Q[state][np.argmax(Q[state])]
 		
 count=0
+
 for episodeNum in range(numEpisodes):
 	count+=1
 	blackjack.init()
@@ -46,15 +59,31 @@ for episodeNum in range(numEpisodes):
 		action = policy(state)
 		reward,statep=blackjack.sample(state,action) 
 		Q[state][action] = Q[state][action] + alpha*(reward + expectedValue(statep) - Q[state][action])
-		state = statep +0
+		state = statep
 		return1+=reward
 	returnSum+=return1
 blackjack.printPolicy(learnedPolicy)
+print "Average return: ", float(returnSum)/float(numEpisodes)
+returnSumLearned=0
 
-	
-"""
-	if ((episodeNum % 10000) == 0):
-		print(count,"Average return: ", returnSum/(episodeNum+1))
-	
-print "Average return: ", returnSum/numEpisodes
-"""
+for episodeNum in range(numEpisodes):
+	count+=1
+	blackjack.init()
+	state=0
+	return1=0
+	while (state != -1):
+		action = learnedPolicy(state)
+		reward,statep=blackjack.sample(state,action) 
+		state = statep+0
+		return1+=reward
+	returnSumLearned+=return1
+
+print(returnSumLearned)
+print(numEpisodes)
+print "Average return learned: ", float(returnSumLearned)/float(numEpisodes)
+
+"alpha","epsilonu","epsilonpi","average return","learned average return","number of episodes"
+writer.writerow((alpha,epsilonu,epsilonpi,float(returnSum)/float(numEpisodes),float(returnSumLearned)/float(numEpisodes),numEpisodes))
+
+logfile.close()
+
