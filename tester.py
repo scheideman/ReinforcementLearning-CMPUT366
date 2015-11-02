@@ -5,7 +5,7 @@ import random
 import csv
 
 
-numEpisodes = 10
+numEpisodes = 1000000
 returnSum = 0.0
 epsilonu=0.01
 epsilonpi=0.01
@@ -22,8 +22,6 @@ Q=0.00001*np.random.rand(181,2)
 """
 policy() returns equiprobable random policy
 """
-
-
 def policy(state):
 	testnumber=random.random()
 	if (testnumber <= epsilonu):
@@ -45,10 +43,13 @@ def expectedValue(state):
 		
 count=0
 
-for alpha in np.linspace(0.0001,0.1,10):
-	for epsilonu in np.arange(0.005,0.2,50):
-		for epsilonpi in np.linspace(0.005,0.2,50):
+for a in np.array([0.012,0.001]):
+	for eu in np.linspace(0.18,0.27,3):
+		for epi in np.linspace(0.18,0.18,1):
 			returnSum=0.0
+			alpha = a
+			epsilonu = eu
+			epsilonpi = epi
 			for episodeNum in range(numEpisodes):
 				count+=1
 				blackjack.init()
@@ -61,8 +62,8 @@ for alpha in np.linspace(0.0001,0.1,10):
 					state = statep
 					return1+=reward
 				returnSum+=return1
-			blackjack.printPolicy(learnedPolicy)
-			print "Average return: ", float(returnSum)/float(numEpisodes)
+			#blackjack.printPolicy(learnedPolicy)
+			#print "Average return: ", float(returnSum)/float(numEpisodes)
 			returnSumLearned=0.0
 
 			for episodeNum in range(numEpisodes):
@@ -78,7 +79,7 @@ for alpha in np.linspace(0.0001,0.1,10):
 				returnSumLearned+=return1
 
 			
-			print "Average return learned: ", float(returnSumLearned)/float(numEpisodes)
+			#print "Average return learned: ", float(returnSumLearned)/float(numEpisodes)
 
 			writer.writerow((alpha,epsilonu,epsilonpi,float(returnSum)/float(numEpisodes),float(returnSumLearned)/float(numEpisodes),numEpisodes))
 

@@ -1,2 +1,7 @@
 Base case Learned return : -0.0362311
 Base case deterministic : -0.0321822
+
+Best so far:
+alpha = 0.001
+eu = 0.15
+epi = 0.18
