@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 
 numEpisodes = 1000000
 returnSum = 0.0
-epsilonu=0.01
-epsilonpi=0.01
+epsilonu=0.19
+epsilonpi=0.05
 alpha = 0.001
 #logfile= open("logfile.csv","a")
 #writer=csv.writer(logfile)
@@ -92,7 +92,6 @@ returnSumLearned=0
 Now use learned policy and calculate average return
 """
 for episodeNum in range(numEpisodes):
-	count+=1
 	blackjack.init()
 	state=0
 	return1=0
