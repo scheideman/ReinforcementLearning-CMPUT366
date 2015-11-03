@@ -1,6 +1,12 @@
-1. randomPolicy average return of -0.33
+1. 
+The observed average return using a equiprobable random policy was about -0.33 which is close to the expected value. To implement the random policy we used python random.randint(0,1).
 
-2. check -.33
+2. 
+To check if our Expected Sarsa was implemented correctly we ran it with epsilonu = 1 to start, in which case we got the approximately -0.33 for average return which matched the equiprobable random policy from part 1. 
+
+Next we used the settings specified in the assignment and got the following output:
+
+alpha = 0.001, epsilonu = 0.01 and epsilonpi = 0.01
 
 Count = 10000 Average return:  -0.1148
 Count = 20000 Average return:  -0.09745
@@ -126,27 +132,56 @@ H H H H H H H H H H 13
 H H H H H H H H H H 12
 1 2 3 4 5 6 7 8 9 10
 Average return:  -0.051992
-Average return learned:  -0.037333
+
+Next we used the learned deterministic policy above without exploration and ran for 10 million episodes and got the following average return:
+
+Average return deterministic:  -0.037333
 
 
 
 3.
-Best so far:
-alpha,eu,epi
-0.001	0.19	0.05	-0.0270128	 
+After experiment with various settings the combination we found were:
 
-0.001	0.2	0.01	-0.02818	
+Alpha = 0.001, epsilonu = 0.19 and epsilonpi = 0.05 
 
-0.001	0.001	0.009	-0.0309	          
+Below is the policy and average return found using the settings above for 10 million episodes.
+ Usable Ace:
+S S S S S S S S S S 20
+S S S S S S S S S S 19
+H S S S S S S S H H 18
+H H H H H S H H H H 17
+H H H H H H H H H H 16
+H H H H H H H H H H 15
+H H H H H H H H H H 14
+H H H H H H H H H H 13
+H H H H H H H H H H 12
+1 2 3 4 5 6 7 8 9 10
 
-0.001	1	0.01	-0.02786	  
+ No Usable Ace:
+S S S S S S S S S S 20
+S S S S S S S S S S 19
+S S S S S S S S S S 18
+S S S S S S S S S S 17
+H S S S S S H H H H 16
+H H H S S H H H H H 15
+H H H S H H H H H H 14
+H H H H H H H H H H 13
+H H H H H H H H H H 12
+1 2 3 4 5 6 7 8 9 10
 
-0.001  0.0001   0.0001  -0.0334272
-       
-0.001    1        1      -0.0438716
-      
-1       0.19     0.05   -0.1540741   
-0.1     0.19     0.05   -0.034892  
-0.01    0.19     0.05   -0.0295511
-  
+Final performance level:  -0.0279839
+
+Below are some of the test cases we ran to find the best values:
+
+alpha    eu     epi       Average 
+0.001   0.19    0.05    -0.0270128	 
+0.001	1       0.01    -0.02786	  
+0.001   0.0001  0.0001  -0.0334272       
+0.001   1       1       -0.0438716
+1       0.19    0.05    -0.1540741   
+0.1     0.19    0.05    -0.034892  
+0.01    0.19    0.05    -0.0295511
+0.001   0.19    0.19    -0.0287775  
+
+Based off these values we found that a behviour epsilon of about 0.19 and a policy epsilon of 0.05 produced the best policy consistently. In this case when choosing the behaviour the equiprobable policy is used 19% of the time. Whereas when updating   
   
