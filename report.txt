@@ -1,14 +1,9 @@
 1. randomPolicy average return of -0.33
 2. check -.33
-b.learning: -0.051992
-deterministic: -0.037333
+b.base learning: -0.051992
+base deterministic: -0.037333
 
-
-
-
-Base case Learned return : -0.0362311
-Base case deterministic : -0.0321822
-
+3.
 Best so far:
 alpha,eu,epi
 0.001	0.19	0.05	-0.0270128	 
@@ -23,6 +18,7 @@ alpha,eu,epi
        
 0.001    1        1      -0.0438716
       
-1       0.19     0.05   -0.1540741      
+1       0.19     0.05   -0.1540741   
+0.1     0.19     0.05    -0.034892   
   
   
