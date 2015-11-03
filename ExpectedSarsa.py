@@ -11,7 +11,6 @@ returnSum = 0.0
 epsilonu=0.19
 epsilonpi=0.05
 alpha = 0.001
-
 #logfile= open("logfile.csv","a")
 #writer=csv.writer(logfile)
 

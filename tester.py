@@ -5,9 +5,9 @@ import random
 import csv
 
 
-numEpisodes = 10000000
+numEpisodes = 1000000
 returnSum = 0.0
-epsilonu=0.01
+epsilonu=0.19
 epsilonpi=0.01
 alpha = 0.1
 
@@ -43,9 +43,9 @@ def expectedValue(state):
 		
 count=0
 
-for a in np.array([0.001]):
-	for eu in np.array([0.19,0.17]):
-		for epi in np.array([0.05,0.001]):
+for a in np.array([0.001,0.5,1]):
+	for eu in np.array([0.01,0.5,1]):
+		for epi in np.array([0.01,0.5,1]):
 			returnSum=0.0
 			alpha = a
 			epsilonu = eu
