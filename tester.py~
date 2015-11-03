@@ -43,9 +43,9 @@ def expectedValue(state):
 		
 count=0
 
-for a in np.array([0.001]):
-	for eu in np.array([0.001,1]):
-		for epi in np.array([0.009,0.5,1]):
+for a in np.array([0.001,0.5,1]):
+	for eu in np.array([0.01,0.5,1]):
+		for epi in np.array([0.01,0.5,1]):
 			returnSum=0.0
 			alpha = a
 			epsilonu = eu
