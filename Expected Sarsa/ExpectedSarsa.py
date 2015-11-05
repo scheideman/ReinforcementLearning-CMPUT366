@@ -2,21 +2,15 @@ import blackjack
 from pylab import *
 import numpy as np
 import random
-import csv
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
 
 numEpisodes = 10000000
 returnSum = 0.0
-epsilonu=1
-epsilonpi=0.01
+epsilonu=0.19
+epsilonpi=0.05
 alpha = 0.001
-#logfile= open("logfile.csv","a")
-#writer=csv.writer(logfile)
 
 Q=0.00001*np.random.rand(181,2)
 
-#print(Q)
 """
 Returns the epsilonu greedy behaviour policy for given state
 """
@@ -46,30 +40,14 @@ def expectedValue(state):
 	else:
 		return Q[state][np.argmax(Q[state])]
 
-def plotter():
-	X = np.zeros(90)
-	Y = np.zeros(90)
-	Z = np.zeros(90)
-	for s in np.arange(1,90):
-		blackjack.decode(s)
-		X[s] = blackjack.dealerCard
-		Y[s] = blackjack.playerSum
-		Z[s] = max(Q[s])
-
-	fig = plt.figure()
-	ax = fig.add_subplot(111, projection='3d')
-	ax.scatter(X, Y, Z, c='r', marker='o')
-	ax.set_ylim(12, 20)
-	plt.show()
-
 
 """
+Experiments:
+
 First learn policy and calculate average return
 """
-count=0
 
 for episodeNum in range(numEpisodes):
-	count+=1
 	blackjack.init()
 	state=0
 	return1=0
@@ -80,6 +58,12 @@ for episodeNum in range(numEpisodes):
 		state = statep
 		return1+=reward
 	returnSum+=return1
+	if (((episodeNum % 10000) == 0) and (episodeNum != 0)):
+		print "Count =",episodeNum,"Average return: ", returnSum/(episodeNum)
+	
+
+
+
 blackjack.printPolicy(learnedPolicy)
 print "Average return: ", float(returnSum)/float(numEpisodes)
 returnSumLearned=0
@@ -88,7 +72,6 @@ returnSumLearned=0
 Now use learned policy and calculate average return
 """
 for episodeNum in range(numEpisodes):
-	count+=1
 	blackjack.init()
 	state=0
 	return1=0
@@ -103,9 +86,5 @@ print(returnSumLearned)
 print(numEpisodes)
 print "Average return learned: ", float(returnSumLearned)/float(numEpisodes)
 
-plotter()
-"alpha","epsilonu","epsilonpi","average return","learned average return","number of episodes"
-#writer.writerow((alpha,epsilonu,epsilonpi,float(returnSum)/float(numEpisodes),float(returnSumLearned)/float(numEpisodes),numEpisodes))
 
-#logfile.close()
 

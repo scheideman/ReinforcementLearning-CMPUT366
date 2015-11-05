@@ -9,9 +9,8 @@ import matplotlib.pyplot as plt
 numEpisodes = 10000000
 returnSum = 0.0
 epsilonu=0.19
-epsilonpi=0.05
+epsilonpi=0.005
 alpha = 0.001
-
 #logfile= open("logfile.csv","a")
 #writer=csv.writer(logfile)
 
@@ -67,8 +66,10 @@ def plotter():
 """
 First learn policy and calculate average return
 """
+count=0
 
 for episodeNum in range(numEpisodes):
+	count+=1
 	blackjack.init()
 	state=0
 	return1=0
@@ -79,12 +80,6 @@ for episodeNum in range(numEpisodes):
 		state = statep
 		return1+=reward
 	returnSum+=return1
-	#if (((episodeNum % 10000) == 0) and (episodeNum != 0)):
-	#	print "Count =",episodeNum,"Average return: ", returnSum/(episodeNum)
-	
-
-
-
 blackjack.printPolicy(learnedPolicy)
 print "Average return: ", float(returnSum)/float(numEpisodes)
 returnSumLearned=0
@@ -93,6 +88,7 @@ returnSumLearned=0
 Now use learned policy and calculate average return
 """
 for episodeNum in range(numEpisodes):
+	count+=1
 	blackjack.init()
 	state=0
 	return1=0
@@ -107,7 +103,7 @@ print(returnSumLearned)
 print(numEpisodes)
 print "Average return learned: ", float(returnSumLearned)/float(numEpisodes)
 
-#plotter()
+plotter()
 "alpha","epsilonu","epsilonpi","average return","learned average return","number of episodes"
 #writer.writerow((alpha,epsilonu,epsilonpi,float(returnSum)/float(numEpisodes),float(returnSumLearned)/float(numEpisodes),numEpisodes))
 

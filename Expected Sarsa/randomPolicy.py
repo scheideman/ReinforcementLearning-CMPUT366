@@ -7,11 +7,14 @@ numEpisodes = 2000
 returnSum = 0.0
 
 """
-policy() returns equiprobable random policy
+Returns equiprobable random policy
 """
 def policy():
     return random.randint(0,1)	
 
+"""
+Experiment
+"""
 for episodeNum in range(numEpisodes):
     G = 0
     state=0
