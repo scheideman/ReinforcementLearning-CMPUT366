@@ -1,0 +1,15 @@
+1.  If we choose to store the indecies in one dimension, the  (11×11)=121 indecies of the first tiling will be numbered 0 through 120. The numbering of the other tilings will go after the previous tiling. Thus the second tiling goes from 121 to 121+((11×11)-1)=242.
+
+
+2. For the first seven tilings, the point (0.1,0.1) falls in the first index (starting at bottom left). The range for the first tiling for both the x and y axis is [0,0.6], so the point (0.1,0.1) falls in this range. In the next six tilings the range is offset by -1/8 in both the x and y axis, so we get the ranges [-3/40,21/40], [-3/20,9/20],[-9/40,3/8],[-3/10,3/10],[-3/8,9/40],[-9/20,3/20]. As we can see the point (0.1,0.1) falls in these ranges, so it is the first index of each tiling. Given the pattern of the first indecies of each tiling discussed in question 1, these are 0,121,242,363,484,605,726.
+
+
+3. In the eight tiling, the range of the 13th tiling for both the x and y axis [(0.6)-(7*(3/40))=3/40,(1.2)-(7*(3/40))=27/40]. Point (1,1) falls in this range.
+
+
+4. The eighth tiling starts at index  7*(11×11)=847. The thirteenth tile in this tiling has index 847+12=859.
+
+
+5. Since there are eight tilings, and the last tiling starts at index 847, the lsat index is the largest index in this tiling, the 121st. 847+120=967.
+
+6. 

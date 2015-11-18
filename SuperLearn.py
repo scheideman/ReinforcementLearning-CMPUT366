@@ -16,7 +16,6 @@ def f(x,y):
     # write your linear function approximator here (5 lines or so)
 	global tileIndices
 	tilecode(x,y,tileIndices)
-	#print(tileIndices)
 	innerProduct=0
 	for index in tileIndices:
 		innerProduct += weights[index]
@@ -83,5 +82,3 @@ def test2():
     writeF('f10000')
  
 test2()
-#print("f value",f(0.1,0.1))
-#learn(0.1,0.1,3)
