@@ -80,5 +80,5 @@ def test2():
         train(1000)
         MSE(10000)
     writeF('f10000')
- 
+
 test2()
