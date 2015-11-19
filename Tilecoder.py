@@ -8,7 +8,7 @@ def tilecode(x,y,tileIndices):
      for i in range(0,numTilings):
 	offset = i * tileSize/float(numTilings);   
 	xy = [offset + x, offset+y];
-	tileIndex = np.floor(xy[0]/tileSize) + np.floor(xy[1]/tileSize)*11;
+	tileIndex = np.floor(xy[0]/tileSize)  + np.floor(xy[1]/tileSize)*11;
 	tileIndices[i] = int(tileIndex) + i*121; 
 
     
