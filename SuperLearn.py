@@ -9,8 +9,7 @@ weights=np.zeros(968,dtype=float)
 step_size=float(float(0.1)/float(numTilings))
 # initialize your global list of tile indices here
 tileIndices = np.zeros(numTilings) #[-1]*numTilings
-#alpha value
-alpha=  float(float(0.1)/float(numTilings))
+
 
 def f(x,y):
     # write your linear function approximator here (5 lines or so)
@@ -25,9 +24,8 @@ def learn(x,y,target):
    # write your gradient descent learning algorithm here (3 lines or so)
 	global weights
 	for index in tileIndices:
-		newWeight=weights[index] + alpha*(target - f(x,y))
+		newWeight=weights[index] + step_size*(target - f(x,y))
 		weights[index]=newWeight
-	#print(weights)
 			
  
 def test1():
