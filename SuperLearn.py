@@ -23,6 +23,7 @@ def f(x,y):
 def learn(x,y,target):
    # write your gradient descent learning algorithm here (3 lines or so)
 	global weights
+	tilecode(x,y,tileIndices) #update tileindices for new point
 	for index in tileIndices:
 		newWeight=weights[index] + step_size*(target - f(x,y))
 		weights[index]=newWeight

@@ -4,7 +4,6 @@ numTilings = 8
 def tilecode(x,y,tileIndices):
      # write your tilecoder here (5 lines or so)
      tileSize = float(6)/float(10);
-     #print tileSize
      for i in range(0,numTilings):
 	offset = i * tileSize/float(numTilings);   
 	xy = [offset + x, offset+y];
