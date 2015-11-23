@@ -12,4 +12,4 @@
 
 5. Since there are eight tilings, and the last tiling starts at index 847, the lsat index is the largest index in this tiling, the 121st. 847+120=967.
 
-6. 
+6. 6 of the 8 tilings match because the x value is the same and the y value is 0.1 off. So the point falls in the same tiles for both the (4.0,2.0) case and the (4.0,2.1) case for 6 of the tilings, but the 1/10 difference means for two of the tilings the tiles don't match.  

@@ -1,0 +1,4 @@
+Tile indices for input ( 0.1 , 0.1 ) are :  [0, 121, 242, 363, 484, 605, 726, 859]
+Tile indices for input ( 4.0 , 2.0 ) are :  [39, 160, 281, 403, 524, 645, 777, 898]
+Tile indices for input ( 5.99 , 5.99 ) are :  [108, 241, 362, 483, 604, 725, 846, 967]
+Tile indices for input ( 4.0 , 2.1 ) are :  [39, 160, 281, 403, 535, 656, 777, 898]

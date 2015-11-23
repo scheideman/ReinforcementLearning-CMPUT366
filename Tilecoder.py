@@ -22,11 +22,5 @@ printTileCoderIndices(4.0,2.0)
 printTileCoderIndices(5.99,5.99)
 printTileCoderIndices(4.0,2.1)
 
-'''
-#extra test cases not to be handed in 
-printTileCoderIndices(0,5.99)
-printTileCoderIndices(0.7,0.7)
-printTileCoderIndices(1.3,1.3)
-'''
-#Also need to answer why questions in why1.pdf
+
     
