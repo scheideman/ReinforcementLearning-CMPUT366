@@ -15,7 +15,7 @@ def f(x,y):
     
 def learn(x,y,target):
     global weights
-    tilecode(x,y,tileIndices) #update tileindices for new point
+    tilecode(x,y,tileIndices) 
     innerProduct = f(x,y);
     for index in tileIndices:
         newWeight=weights[index] + step_size*(target - innerProduct)
