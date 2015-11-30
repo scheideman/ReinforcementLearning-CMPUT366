@@ -10,7 +10,7 @@ gamma = 1
 lmbda = 0.9
 Epi = Emu = epsilon = 0
 n = numTiles * 3
-#F = [-1]*numTilings
+F = [-1]*numTilings
 Q = [0]*3
 numActions = 3
 
@@ -27,34 +27,61 @@ for run in xrange(numRuns):
         e = zeros(n)
         position, velocity = mountaincar.init()
         while(1): #until terminal state is reached 
-            F = tilecode(position,velocity,F)     #I think our tilecoder should take in state-action pair, not just the state
+	    #print("while")
+            tilecode(position,velocity,F)
+	    #print("pos",position,"\n","velocity", velocity)    
+	    #print("F",F)
             for a in range(3):
                 i = a*4*9*9
-                Q[a] = sum([(theta[j+i]) for j in F
+                Q[a] = sum([(theta[j+i]) for j in F])
 
-            A = np.argmax(Q) if np.random.random() > epsilon \ 
-                else np.randoms.randint(numActions)
-            #I got to line ( A does not equal A star) line 13 
+ 	    if np.random.random() > epsilon:
+		A = np.argmax(Q)
+            else:
+		 np.random.randint(numActions)
+            print("A",A)
             R,result = mountaincar.sample((position,velocity),A)
             if (result == None):
+		print("terminal")
                 #I don't know what to put here, what is the theta index of terminal state
+		exit()
                 break
             newPosition=result[0]
             newVelocity=result[1]
+
+	    tilecode(newPosition,newVelocity,F) 
+  	   
             error = R - Q[A]
+		
+	  
             
-            F = tilecode(position,velocity,F) 
             for j in F:
                 e[j+(A*4*9*9)] = 1
-            F = tilecode(position,velocity,F)
+            
             for a in range(3):
                 i = a*4*9*9
-                Q[a] = sum([(theta[j+i]) for j in F
+                Q[a] = sum([(theta[j+i]) for j in F])
                 
-            middleValue = (theta[j+A]) for j in F
-            error = error + middleValue
-            for j in range(n):
-                e[j]=np.max(gamma*lmbda*e[j], ????) #comparing to feature vector?
+            #expectedValue = sum([(theta[j+A]) for j in F]) 			
+
+            error = error + (1-epsilon)*(np.argmax(Q)) + epsilon*(np.average(Q))
+
+	    for j in range(n):
+		theta[j] = theta[j] + alpha*error*e[j]
+
+	    for j in range(n):
+		value=0
+		if j in F:
+			value=1
+		if j-(4*9*9) in F:
+			value=1
+		if j-(2*4*9*9) in F:
+			value=1
+	    	e[j] = max(lmbda*e[j],value) 	
+
+            #for j in range(n):
+             #   e[j]=gamma*lmbda*e[j] #comparing to feature vector?
+          #      #e[j]=np.max(gamma*lmbda*e[j], ????) #comparing to feature vector?
             position, velocity = newPosition, newVelocity
         
 

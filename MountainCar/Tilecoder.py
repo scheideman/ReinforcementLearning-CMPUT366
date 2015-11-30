@@ -17,7 +17,7 @@ def tilecode(x,y,tileIndices):
     	xy = [offsetX[i] + x +1.2, offsetY[i]+y+0.07]; #notmalize and apply random offset 
     	tileIndex = np.floor(xy[0]/tileSizeX)  + np.floor(xy[1]/tileSizeY)*9;
     	tileIndices[i] = int(tileIndex) + i*81; 
-    return tileIndices
+    #return tileIndices
     
 def printTileCoderIndices(x,y):
     tileIndices = [-1]*numTilings
