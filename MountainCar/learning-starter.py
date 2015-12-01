@@ -27,61 +27,51 @@ for run in xrange(numRuns):
         e = zeros(n)
         position, velocity = mountaincar.init()
         while(1): #until terminal state is reached 
-	    #print("while")
+	        #print("while")
             tilecode(position,velocity,F)
-	    #print("pos",position,"\n","velocity", velocity)    
-	    #print("F",F)
+	        #print("pos",position,"\n","velocity", velocity)    
+	        #print("F",F)
             for a in range(3):
                 i = a*4*9*9
                 Q[a] = sum([(theta[j+i]) for j in F])
 
- 	    if np.random.random() > epsilon:
-		A = np.argmax(Q)
+ 	        if np.random.random() > epsilon:
+	            A = np.argmax(Q)
             else:
-		 np.random.randint(numActions)
+		        np.random.randint(numActions)
             print("A",A)
             R,result = mountaincar.sample((position,velocity),A)
-            if (result == None):
-		print("terminal")
+            if(result == None):
+		        print("terminal")
                 #I don't know what to put here, what is the theta index of terminal state
-		exit()
-                break
+		        break
+
             newPosition=result[0]
             newVelocity=result[1]
-
-	    tilecode(newPosition,newVelocity,F) 
-  	   
-            error = R - Q[A]
-		
-	  
-            
-            for j in F:
-                e[j+(A*4*9*9)] = 1
-            
-            for a in range(3):
+            oldF = F
+            tilecode(newPosition,newVelocity,F) 
+  	        for a in range(3):
                 i = a*4*9*9
                 Q[a] = sum([(theta[j+i]) for j in F])
+            error = R - Q[A]
+            for j in F:
+                e[j+(A*4*9*9)] = 1 
+           
                 
             #expectedValue = sum([(theta[j+A]) for j in F]) 			
 
             error = error + (1-epsilon)*(np.argmax(Q)) + epsilon*(np.average(Q))
 
-	    for j in range(n):
-		theta[j] = theta[j] + alpha*error*e[j]
+            for j in range(n):
+		        theta[j] = theta[j] + alpha*error*e[j]
 
-	    for j in range(n):
-		value=0
-		if j in F:
-			value=1
-		if j-(4*9*9) in F:
-			value=1
-		if j-(2*4*9*9) in F:
-			value=1
-	    	e[j] = max(lmbda*e[j],value) 	
+            for j in range(n):
+		        value=0
+		        if j-A*(4*9*9) in oldF:
+			        value=1
 
-            #for j in range(n):
-             #   e[j]=gamma*lmbda*e[j] #comparing to feature vector?
-          #      #e[j]=np.max(gamma*lmbda*e[j], ????) #comparing to feature vector?
+                e[j] = max(lmbda*e[j],value)
+
             position, velocity = newPosition, newVelocity
         
 
