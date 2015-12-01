@@ -19,53 +19,48 @@ numActions = 3
 
 runSum = 0.0
 for run in xrange(numRuns):
-    setOffset()  # maybe declare outside of loop
+    #setOffset()  # maybe declare outside of loop
     theta = -0.01 * rand(numTiles,3)
 
     returnSum = 0.0
     for episodeNum in xrange(numEpisodes):
         G = 0
-
+        step = 0
         # your code goes here (20-30 lines, depending on modularity)
-
         e = np.zeros([numTiles,3])
         (position, velocity) = mountaincar.init()
         while 1:  # until terminal state is reached
-
-            # print("while")
-
             tilecode(position, velocity, F)
 
-            print("pos",position,"\n","velocity", velocity)
+            #print("pos",position,"\n","velocity", velocity)
             # print("F",F)
+            Q = np.sum(theta[F],axis=0) #inner product theta*phi, get state value for each action
 
-            Q = np.sum(theta[F],axis=0)
-
-            print("Q",Q)
+            #print("Q",Q)
+            #choose next action
             if np.random.random() > epsilon:
                 A = np.argmax(Q)
             else:
-                np.random.randint(numActions)
-            print ('A', A)
+                A = np.random.randint(numActions)
+            #print ('A', A)
             R, result = mountaincar.sample((position, velocity), A)
-            if result == None:
-                print 'terminal'
-                exit()
-
-            newPosition = result[0]
-            newVelocity = result[1]
-            oldF = copy.copy(F)
-            tilecode(newPosition, newVelocity, F)
-           
             error = R - Q[A]
             eOld = copy.copy(e)
             e[F,A] = 1
+            if result == None:
+                print 'terminal'
+                theta = theta + alpha * error * e
+                break
+
+            newPosition,newVelocity = result
+            oldF = copy.copy(F)
+            tilecode(newPosition, newVelocity, F)
             
             Q = np.sum(theta[F],axis=0)
 
             error = error + (1 - epsilon) * np.argmax(Q) + epsilon \
-                * np.average(Q)
-
+                * np.average(Q) 
+                
             theta = theta + alpha * error * e
 
             tmp = np.zeros([numTiles,3])
@@ -73,9 +68,7 @@ for run in xrange(numRuns):
             e = np.maximum(lmbda*eOld,tmp)
 
             position, velocity = newPosition, newVelocity
-
-        # end of our code
-
+            step = step+1
         print 'Episode: ', episodeNum, 'Steps:', step, 'Return: ', G
         returnSum = returnSum + G
     print 'Average return:', returnSum / numEpisodes

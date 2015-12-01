@@ -1,13 +1,13 @@
 '''
 mountain car modified to have an extra penalty for non-zero action
 '''
-
+ 
 from pylab import random, cos
-
+ 
 def init():
     position = -0.6 + random()*0.2
     return position, 0.0
-
+ 
 def sample(S,A):
     position,velocity = S
     if not A in (0,1,2):
