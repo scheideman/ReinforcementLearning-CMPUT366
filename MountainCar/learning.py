@@ -6,8 +6,8 @@ from Tilecoder import numTiles as n
 from pylab import *  # includes numpy
 import copy
 
-numRuns = 50
-numEpisodes = 200
+numRuns = 1
+numEpisodes = 1000
 alpha = 0.5 / numTilings
 gamma = 1
 lmbda = 0.9
