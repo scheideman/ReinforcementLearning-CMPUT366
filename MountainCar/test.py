@@ -6,7 +6,7 @@ from Tilecoder import numTiles as n
 from pylab import *  # includes numpy
 import copy
 
-numRuns = 1
+numRuns = 50
 numEpisodes = 200
 alpha = 0.5 / numTilings
 gamma = 1
@@ -16,6 +16,7 @@ n = numTiles * 3
 F = [-1] * numTilings
 Q = [0] * 3
 numActions = 3
+runList = [0]*numRuns
 
 runSum = 0.0
 for run in xrange(numRuns):
@@ -31,24 +32,19 @@ for run in xrange(numRuns):
         (position, velocity) = mountaincar.init()
         while 1:  # until terminal state is reached
             tilecode(position, velocity, F)
-
-            #print("pos",position,"\n","velocity", velocity)
-            # print("F",F)
             Q = np.sum(theta[F],axis=0) #inner product theta*phi, get state value for each action
 
-            #print("Q",Q)
-            #choose next action
             if np.random.random() > epsilon:
                 A = np.argmax(Q)
             else:
                 A = np.random.randint(numActions)
-            #print ('A', A)
+     
             R, result = mountaincar.sample((position, velocity), A)
             error = R - Q[A]
             eOld = copy.copy(e)
             e[F,A] = 1
+            G += R
             if result == None:
-                print 'terminal'
                 theta = theta + alpha * error * e
                 break
 
@@ -58,9 +54,9 @@ for run in xrange(numRuns):
             
             Q = np.sum(theta[F],axis=0)
 
-            error = error + (1 - epsilon) * np.argmax(Q) + epsilon \
+            error = error + (1 - epsilon) * np.max(Q) + epsilon \
                 * np.average(Q) 
-                
+        
             theta = theta + alpha * error * e
 
             tmp = np.zeros([numTiles,3])
@@ -73,8 +69,10 @@ for run in xrange(numRuns):
         returnSum = returnSum + G
     print 'Average return:', returnSum / numEpisodes
     runSum += returnSum
+    runList[run] = returnSum / numEpisodes
 print 'Overall performance: Average sum of return per run:', runSum \
     / numRuns
+
 
 
 # Additional code here to write average performance data to files for plotting...
@@ -88,11 +86,19 @@ def writeF():
         for j in range(steps):
             tilecode(-1.2 + i * 1.7 / steps, -0.07 + j * 0.14 / steps,
                      F)
-            height = -max(Qs(F))
+            Q = np.sum(theta[F],axis=0)
+            height = -max(Q)
             fout.write(repr(height) + ' ')
         fout.write('\n')
     fout.close()
 
+
+writeF()
+
+stddev = np.std(runList)
+stderror = stddev/np.sqrt(numRuns)
+print("Mean performance", np.average(runList))
+print("Standard Error",stderror)
 
 
 		
