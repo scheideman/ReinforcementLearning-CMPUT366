@@ -1,38 +1,37 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import mountaincar
-from Tilecoder import numTilings, tilecode, numTiles, setOffset
+from Tilecoder import numTilings, tilecode, numTiles
 from Tilecoder import numTiles as n
 from pylab import *  # includes numpy
 import copy
 
-numRuns = 1
-numEpisodes = 1000
-alpha = 0.5 / numTilings
+numRuns = 50
+numEpisodes = 200
+alpha = 0.5 / (numTilings)
 gamma = 1
-lmbda = 0.9
+lmbda = .9
 Epi = Emu = epsilon = 0
 n = numTiles * 3
 F = [-1] * numTilings
 Q = [0] * 3
 numActions = 3
-runList = [0]*numRuns
+returns = np.zeros([numRuns,numEpisodes])
+stepList = np.zeros([numRuns,numEpisodes])
+runList = np.zeros(numRuns)
 
 runSum = 0.0
 for run in xrange(numRuns):
-    #setOffset()  # maybe declare outside of loop
-    theta = -0.01 * rand(numTiles,3)
-
+    theta = -1*ones([numTiles,3]) #*rand(numTiles,3)
     returnSum = 0.0
     for episodeNum in xrange(numEpisodes):
         G = 0
         step = 0
-        # your code goes here (20-30 lines, depending on modularity)
         e = np.zeros([numTiles,3])
         (position, velocity) = mountaincar.init()
-        while 1:  # until terminal state is reached
+        while 1: 
             tilecode(position, velocity, F)
-            Q = np.sum(theta[F],axis=0) #inner product theta*phi, get state value for each action
+            Q = np.sum(theta[F],axis=0) 
 
             if np.random.random() > epsilon:
                 A = np.argmax(Q)
@@ -59,17 +58,20 @@ for run in xrange(numRuns):
         
             theta = theta + alpha * error * e
 
-            tmp = np.zeros([numTiles,3])
-            tmp[oldF,A] = 1
-            e = np.maximum(lmbda*eOld,tmp)
+            e = gamma*lmbda*eOld
+            e[oldF,A] = 1
 
             position, velocity = newPosition, newVelocity
             step = step+1
         print 'Episode: ', episodeNum, 'Steps:', step, 'Return: ', G
         returnSum = returnSum + G
+        stepList[run,episodeNum] = step
+        returns[run,episodeNum] = G
     print 'Average return:', returnSum / numEpisodes
+    runList[run] =  returnSum / numEpisodes
     runSum += returnSum
-    runList[run] = returnSum / numEpisodes
+averageStep = np.average(stepList,axis=0)
+averageReturn = np.average(returns,axis=0)
 print 'Overall performance: Average sum of return per run:', runSum \
     / numRuns
 
@@ -92,9 +94,15 @@ def writeF():
         fout.write('\n')
     fout.close()
 
+    fout = open('returnVal', 'w')
+    fout1 = open('stepAvg', 'w')
+    for i in range(numEpisodes):
+        fout1.write(repr(averageStep[i]) + ' ')
+        fout.write(repr(averageReturn[i]) + ' ')
+    fout.close()
+    fout1.close()
 
 writeF()
-
 stddev = np.std(runList)
 stderror = stddev/np.sqrt(numRuns)
 print("Mean performance", np.average(runList))
